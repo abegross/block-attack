@@ -1,0 +1,66 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/block.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+resource_local_to_scene = true
+script/source = "extends Node2D
+
+var pixel = 1
+
+var intensity : Dictionary
+var size = 1
+
+func _draw():
+	var file = File.new()
+	file.open('res://intensity.txt', File.READ)
+	while not file.eof_reached():
+		var sec = round(float(file.get_line())*10)
+		var strength  = float(file.get_line())
+		intensity[sec] = strength
+#		print(strength)
+		draw_line(Vector2(pixel,0),Vector2(pixel,strength*3),Color(1,0,0))
+		pixel+=1
+#		print(intensity[sec])
+	file.close()
+	for thing in intensity:
+		print(thing)"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+var pos : float
+var size = 0
+func _process(delta):
+	pos = (audio_player.audio.get_playback_position()/audio_player.audio.stream.get_length())
+#	print(int(audio_player.audio.get_playback_position()*10))
+	var intensity = $'../../tester'.intensity
+	print(intensity[round(audio_player.audio.get_playback_position()*10)])
+#	size+=1
+	if intensity.has(round(audio_player.audio.get_playback_position()*10)):
+		size = intensity[round(audio_player.audio.get_playback_position()*10)]
+#		print(size)
+	scale = Vector2(size/50,size/50)
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Node2D
+var pos :float
+func _process(delta):
+	pos = $'../Node2D'.pos
+	update()
+func _draw():
+	draw_line(Vector2(pos*1080,0),Vector2(pos*1080,1920),Color(0,0,1))"
+
+[node name="tester" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Node2D" type="Sprite" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 540, 1037 )
+scale = Vector2( 1.34375, 1.34375 )
+texture = ExtResource( 1 )
+script = SubResource( 2 )
+
+[node name="Node2D2" type="Node2D" parent="."]
+script = SubResource( 3 )
+

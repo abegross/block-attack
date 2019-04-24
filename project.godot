@@ -1,0 +1,63 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[  ]
+_global_script_class_icons={
+
+}
+
+[application]
+
+config/name="block_attack"
+run/main_scene="res://stages/menu_main.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+gamemode="*res://scripts/gamemode.gd"
+audio_player="*res://scenes/audio_player.tscn"
+level_manager="*res://scripts/level_manager.gd"
+score_controller="*res://scripts/score_controller.gd"
+color="*res://scripts/color.gd"
+background="*res://scenes/background.tscn"
+progress="*res://scripts/progress.gd"
+
+[display]
+
+window/size/width=1080
+window/size/height=1920
+window/size/test_width=432
+window/size/test_height=768
+window/handheld/orientation="portrait"
+window/stretch/mode="2d"
+window/stretch/aspect="expand"
+
+[input]
+
+press={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemy"
+2d_physics/layer_3="wall"
+2d_physics/layer_4="particles"
+
+[locale]
+
+locale_filter=[ 0, [ "en_US", "ja" ] ]
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

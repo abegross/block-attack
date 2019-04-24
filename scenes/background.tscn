@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/background.png" type="Texture" id=1]
+[ext_resource path="res://shader.tres" type="Shader" id=2]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Sprite
+
+onready var scl = Vector2(25.313, 38.813)
+onready var screen = Vector2(1080, 1920)
+
+#var newscale : Vector2
+var newscreen : Vector2
+var ratio : Vector2
+
+var chromatic_aberration = 0.00 setget set_offset
+
+func _notification(notification):
+	if notification == NOTIFICATION_DRAW:
+		newscreen = get_viewport_rect().size
+		ratio.x = newscreen.x / screen.x
+		ratio.y = newscreen.y / screen.y
+		scale = Vector2(scl.x * ratio.x, scl.y * ratio.y)
+		print(scale)
+
+
+func set_offset(value):
+	chromatic_aberration = value
+	$shader.material.set_shader_param('ca', chromatic_aberration)
+	print('ca ',chromatic_aberration)"
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 2 )
+shader_param/ca = Vector3( 0.03, 0.02, 0 )
+
+[node name="background" type="Sprite"]
+position = Vector2( -270, -270 )
+scale = Vector2( 25.3125, 38.8125 )
+texture = ExtResource( 1 )
+centered = false
+script = SubResource( 2 )
+
+[node name="shader" type="Sprite" parent="."]
+visible = false
+material = SubResource( 8 )
+z_index = 5
+texture = ExtResource( 1 )
+centered = false
+

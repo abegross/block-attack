@@ -1,0 +1,246 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://material.tres" type="Material" id=1]
+[ext_resource path="res://scripts/game.gd" type="Script" id=2]
+[ext_resource path="res://sprites/background.png" type="Texture" id=3]
+[ext_resource path="res://sprites/bumper.png" type="Texture" id=4]
+[ext_resource path="res://scripts/bop.gd" type="Script" id=5]
+[ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/player.gd" type="Script" id=7]
+[ext_resource path="res://sprites/block.png" type="Texture" id=8]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/shake.gd" type="Script" id=10]
+[ext_resource path="res://shader.tres" type="Shader" id=11]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="PhysicsMaterial" id=2]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="PhysicsMaterial" id=3]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="PhysicsMaterial" id=4]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="PhysicsMaterial" id=5]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 32, 32 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "vzhew"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("holo:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 26.7879, -0.0676022 ), Vector2( 26.7879, 4.32036 ), Vector2( 26.7879, 4.32036 ), Vector2( 26.7879, -0.0675057 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("holo:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.75, 1 ),
+"transitions": PoolRealArray( 1, 0.5, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 540, 1080 ), Vector2( 540, 40 ), Vector2( 540, 918 ), Vector2( 540, 222 ), Vector2( 540, 1084 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("holo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.95 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "show"
+}, {
+"args": [  ],
+"method": "hide"
+} ]
+}
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = ExtResource( 11 )
+shader_param/ca = Vector3( 0, 0, 0 )
+
+[node name="board" type="Node2D"]
+material = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="background" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="play_area" type="Sprite" parent="background"]
+position = Vector2( 540, 594 )
+scale = Vector2( 13.5, 13.5 )
+texture = ExtResource( 3 )
+
+[node name="ctrl_area" type="Sprite" parent="background"]
+position = Vector2( 540, 1404 )
+scale = Vector2( 10, 10 )
+texture = ExtResource( 3 )
+
+[node name="bumpers" type="Sprite" parent="background"]
+visible = false
+position = Vector2( 540, 596 )
+scale = Vector2( 14, 14 )
+z_index = 3
+texture = ExtResource( 4 )
+
+[node name="enemies" type="Node" parent="."]
+editor/display_folded = true
+script = ExtResource( 5 )
+
+[node name="enemy2" parent="enemies" instance=ExtResource( 6 )]
+position = Vector2( 216, 270 )
+physics_material_override = SubResource( 1 )
+
+[node name="enemy3" parent="enemies" instance=ExtResource( 6 )]
+position = Vector2( 864, 270 )
+physics_material_override = SubResource( 2 )
+
+[node name="enemy4" parent="enemies" instance=ExtResource( 6 )]
+position = Vector2( 216, 918 )
+physics_material_override = SubResource( 3 )
+
+[node name="enemy1" parent="enemies" instance=ExtResource( 6 )]
+position = Vector2( 864, 918 )
+physics_material_override = SubResource( 4 )
+
+[node name="player" type="RigidBody2D" parent="."]
+editor/display_folded = true
+use_parent_material = true
+position = Vector2( 540, 594 )
+scale = Vector2( 1.5, 1.5 )
+z_index = 1
+collision_mask = 6
+mode = 3
+physics_material_override = SubResource( 5 )
+gravity_scale = 0.0
+contacts_reported = 3
+contact_monitor = true
+linear_damp = 0.0
+angular_damp = 0.0
+script = ExtResource( 7 )
+
+[node name="sprite" type="Sprite" parent="player"]
+texture = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+modulate = Color( 1, 1, 1, 0.425412 )
+shape = SubResource( 6 )
+
+[node name="hud" parent="." instance=ExtResource( 9 )]
+editor/display_folded = true
+
+[node name="walls" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="wall_top" type="StaticBody2D" parent="walls" groups=[
+"wall",
+]]
+position = Vector2( 540, 108 )
+collision_layer = 4
+collision_mask = 11
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="walls/wall_top"]
+position = Vector2( -540, -54 )
+polygon = PoolVector2Array( 1350, -270, 1350, 108, 972, 108, 108, 108, -270, 108, -270, -270 )
+
+[node name="wall_bottom" type="StaticBody2D" parent="walls" groups=[
+"wall",
+]]
+position = Vector2( 540, 1080 )
+collision_layer = 4
+collision_mask = 11
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="walls/wall_bottom"]
+position = Vector2( -540, -1026 )
+polygon = PoolVector2Array( 1350, 1350, 1350, 972, 972, 972, 108, 972, -270, 972, -270, 1350 )
+
+[node name="wall_left" type="StaticBody2D" parent="walls" groups=[
+"wall",
+]]
+position = Vector2( 54, 594 )
+collision_layer = 4
+collision_mask = 11
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="walls/wall_left"]
+position = Vector2( -54, -540 )
+polygon = PoolVector2Array( 108, -270, 108, 108, 108, 972, 108, 1350, -270, 1350, -270, -270 )
+
+[node name="wall_right" type="StaticBody2D" parent="walls" groups=[
+"wall",
+]]
+position = Vector2( 1026, 594 )
+collision_layer = 4
+collision_mask = 11
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="walls/wall_right"]
+position = Vector2( -1026, -540 )
+polygon = PoolVector2Array( 1350, -270, 972, -270, 972, 108, 972, 972, 972, 1350, 1350, 1350 )
+
+[node name="camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 10 )
+
+[node name="color_holder" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="enemies" type="ColorRect" parent="color_holder"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="player" type="ColorRect" parent="color_holder"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="holo" type="Sprite" parent="."]
+visible = false
+material = ExtResource( 1 )
+position = Vector2( 540, 1084 )
+scale = Vector2( 26.7879, -0.0675057 )
+z_index = 1
+texture = ExtResource( 3 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/vzhew = SubResource( 7 )
+
+[node name="shader" type="Sprite" parent="."]
+material = SubResource( 8 )
+position = Vector2( -3.8147e-06, 1.72972 )
+scale = Vector2( 16.875, 30.348 )
+z_index = 5
+texture = ExtResource( 3 )
+centered = false
+
+[node name="timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="player" to="player" method="_on_player_body_entered"]
+
+[editable path="hud"]

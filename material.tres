@@ -1,0 +1,24 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+render_mode blend_mix;
+
+uniform float offset : hint_range(0.0, 0.078);
+
+void fragment() {
+	vec2 s = SCREEN_UV.xy;
+	s.x += offset;
+	s.y += offset/2.0;
+	vec3 c = textureLod(SCREEN_TEXTURE, s.xy, 0.0).rgb;
+	
+//	c.x += offset;
+//	c.z -= offset;
+	
+	COLOR.rgb = c;
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/offset = 0.051
+
