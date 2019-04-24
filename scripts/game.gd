@@ -15,6 +15,7 @@ onready var play_area = $background/play_area
 
 
 func _ready():
+	audio_player.start_sound()
 	if gamemode.BUMPERS.is_current_gamemode():
 		$background/bumpers.show()
 
@@ -79,11 +80,10 @@ func enemies_colliding():
 	$camera.shake(3, 0.13, 0.0005)
 	hits += 1
 	time -= get_process_delta_time()
-	if time <= 0 and hits >= 4 and $timer.time_left == 0:
+	if time <= 0 and hits >= 4:
 		$camera.shake(hits, 0.13, 0.0006)
 		time = 0.05
 		hits = 0
-	pass
 
 
 func bump(enemy):

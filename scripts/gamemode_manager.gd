@@ -102,7 +102,6 @@ func goto_level():
 	"""
 	Go to this gamemode's level.
 	"""
-	audio_player.start_sound()
 	set_as_current_gamemode()
 	level_manager.load_level(level_manager.game)
 

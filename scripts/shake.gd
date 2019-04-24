@@ -7,11 +7,9 @@ var is_shaking = false
 onready var shader = $'../shader'
 
 func shake(new_magnitude, new_lifetime, change):
-	if magnitude > new_magnitude: return
+	if is_shaking and magnitude > new_magnitude: return
 	magnitude = new_magnitude
 	timeleft = new_lifetime
-#
-	if is_shaking: return
 	is_shaking = true
 
 

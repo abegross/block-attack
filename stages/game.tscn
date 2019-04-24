@@ -37,47 +37,6 @@ extents = Vector2( 32, 32 )
 [sub_resource type="Animation" id=7]
 resource_name = "vzhew"
 step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("holo:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.9, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 26.7879, -0.0676022 ), Vector2( 26.7879, 4.32036 ), Vector2( 26.7879, 4.32036 ), Vector2( 26.7879, -0.0675057 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("holo:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 0.5, 0.75, 1 ),
-"transitions": PoolRealArray( 1, 0.5, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 540, 1080 ), Vector2( 540, 40 ), Vector2( 540, 918 ), Vector2( 540, 222 ), Vector2( 540, 1084 ) ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath("holo")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.95 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [  ],
-"method": "show"
-}, {
-"args": [  ],
-"method": "hide"
-} ]
-}
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 11 )
@@ -218,14 +177,6 @@ visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="holo" type="Sprite" parent="."]
-visible = false
-material = ExtResource( 1 )
-position = Vector2( 540, 1084 )
-scale = Vector2( 26.7879, -0.0675057 )
-z_index = 1
-texture = ExtResource( 3 )
-
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/vzhew = SubResource( 7 )
 
@@ -236,10 +187,6 @@ scale = Vector2( 16.875, 30.348 )
 z_index = 5
 texture = ExtResource( 3 )
 centered = false
-
-[node name="timer" type="Timer" parent="."]
-one_shot = true
-autostart = true
 
 [connection signal="body_entered" from="player" to="player" method="_on_player_body_entered"]
 

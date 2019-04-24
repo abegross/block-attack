@@ -11,7 +11,6 @@ func _on_player_body_entered(body):
 		#go to the game over screen
 #		print('gameover')
 #		LevelManager.LoadLevel("2 Game Over")
-		audio_player.death_sound()
 #		board.get_node('anim').play('vzhew')
 		var timer = Timer.new()
 		timer.wait_time = 1.5
@@ -21,8 +20,9 @@ func _on_player_body_entered(body):
 		explode(body, body.global_position)
 		board.gameover = true
 		score_controller.gameover = true
+		audio_player.death_sound()
 #		while timer.time_left > 0:
-		$'../camera'.shake(60, 0.5, 0.01)
+		$'../camera'.shake(60, 0.5, 0.002)
 #			yield(get_tree(), 'idle_frame')
 #		var ca = $'../shader'.material.get_shader_param('ca')
 #		while ca.x > 0:

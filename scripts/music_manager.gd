@@ -1,14 +1,15 @@
 extends Node
 
-var audio
+var audio : AudioStreamPlayer
 var lpf # low pass filter
 var eq
+var started = false
 
 func _ready():
 	audio = $exit_the_premises
 	lpf = AudioServer.get_bus_effect(AudioServer.get_bus_index('Master'), 0)
 	eq = AudioServer.get_bus_effect(AudioServer.get_bus_index('Master'), 2)
-	var e = AudioServer.get_bus_volume_db(AudioServer.get_bus_index('Master'))
+#	var e = AudioServer.get_bus_volume_db(AudioServer.get_bus_index('Master'))
 
 #func _process(delta):
 #	print(AudioServer.get_bus_volume_db(AudioServer.get_bus_index('Master')))
@@ -18,24 +19,30 @@ func _ready():
 toggles the audio on and off
 """
 func toggle_pause():
-	if  audio.playing:
-		audio.stop()
+	if  audio.stream_paused:
+		audio.set_stream_paused(false)
 	else:
-		audio.play()
+		audio.set_stream_paused(true)
 
 
 """
 Make the music stop and do a cool stopping effect
 """
 func death_sound():
-	transition_sound(0, 500)
+	transition_sound(0.0, 500)
+#	toggle_pause()
 
 
 """
 Make the music start and do a cool starting up effect
 """
 func start_sound():
-	transition_sound(1, 10000)
+	if not started:
+		audio.play()
+		started = true
+#	else:
+#		toggle_pause()
+	transition_sound(1.0, 10000)
 
 
 """
