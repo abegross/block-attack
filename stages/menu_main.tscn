@@ -1,15 +1,19 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/menu_main.gd" type="Script" id=2]
-[ext_resource path="res://fonts/bocvi.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://light.material" type="Material" id=3]
+[ext_resource path="res://fonts/NotoSans-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://fonts/bocvi.ttf" type="DynamicFontData" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 200
-font_data = ExtResource( 3 )
+outline_size = 5
+outline_color = Color( 0.988235, 0, 1, 1 )
+font_data = ExtResource( 5 )
+fallback/0 = ExtResource( 4 )
 
 [sub_resource type="GDScript" id=2]
-resource_name = "on_pressed"
 script/source = "extends Button
 
 func _pressed():
@@ -29,6 +33,7 @@ custom_constants/separation = 200
 script = ExtResource( 2 )
 
 [node name="title" type="Label" parent="."]
+material = ExtResource( 3 )
 margin_right = 797.0
 margin_bottom = 213.0
 custom_fonts/font = SubResource( 1 )
@@ -36,10 +41,10 @@ text = "block attack"
 align = 1
 
 [node name="btn_start" type="Button" parent="."]
+material = ExtResource( 3 )
 margin_top = 413.0
 margin_right = 797.0
-margin_bottom = 547.0
-theme = ExtResource( 1 )
+margin_bottom = 561.0
 text = "start≡"
 script = SubResource( 2 )
 

@@ -11,10 +11,10 @@ func _ready():
 
 func score_a_point():
 	if not gameover:
-		score += 1
+		self.score += 1
 		if gamemode.current_gamemode.highscore < score:
 			gamemode.current_gamemode.set_highscore(score)
-		update_score(score)
+#		update_score(score)
 
 
 func update_score(new_score):
@@ -24,5 +24,5 @@ func update_score(new_score):
 
 
 func reset():
-	score = 0
+	self.score = 0
 	print('set score to 0')

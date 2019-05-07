@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
-[ext_resource path="res://fonts/bocvi.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=3]
+[ext_resource path="res://light.material" type="Material" id=2]
+[ext_resource path="res://fonts/bocvi.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -12,7 +13,9 @@ func _ready():
 
 [sub_resource type="DynamicFont" id=2]
 size = 200
-font_data = ExtResource( 2 )
+outline_size = 5
+outline_color = Color( 0.988235, 0, 1, 1 )
+font_data = ExtResource( 3 )
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends Button
@@ -51,6 +54,7 @@ custom_constants/separation = 600
 alignment = 1
 
 [node name="title" type="Label" parent="ctnr_hbox"]
+material = ExtResource( 2 )
 margin_right = 797.0
 margin_bottom = 213.0
 custom_fonts/font = SubResource( 2 )
@@ -59,22 +63,24 @@ text = "block attack"
 [node name="VBoxContainer" type="VBoxContainer" parent="ctnr_hbox"]
 margin_top = 813.0
 margin_right = 797.0
-margin_bottom = 1281.0
+margin_bottom = 1309.0
 custom_constants/separation = 200
 alignment = 1
 
 [node name="btn_restart" type="Button" parent="ctnr_hbox/VBoxContainer"]
+material = ExtResource( 2 )
 margin_right = 797.0
-margin_bottom = 134.0
+margin_bottom = 148.0
 theme = ExtResource( 1 )
 text = "restart"
 script = SubResource( 3 )
 
 [node name="btn_lvl_select" type="Button" parent="ctnr_hbox/VBoxContainer"]
-margin_left = 93.0
-margin_top = 334.0
-margin_right = 704.0
-margin_bottom = 468.0
+material = ExtResource( 2 )
+margin_left = 89.0
+margin_top = 348.0
+margin_right = 708.0
+margin_bottom = 496.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -82,5 +88,6 @@ theme = ExtResource( 1 )
 text = "   level select   "
 script = SubResource( 4 )
 
-[node name="hud" parent="." instance=ExtResource( 3 )]
+[node name="hud" parent="." instance=ExtResource( 4 )]
+mouse_filter = 2
 

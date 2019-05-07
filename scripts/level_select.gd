@@ -4,7 +4,8 @@ extends Container
 
 func _ready():
 	var themet = preload("res://theme.tres")
-	color.randomizer([background, [$panel,themet, $panel/margin/ctnr_hs/desc], get_tree().get_nodes_in_group('level'), theme, get_tree().get_nodes_in_group('score')])
+#	color.randomizer([background, [$panel,themet, $panel/margin/ctnr_hs/desc], get_tree().get_nodes_in_group('level'), theme, get_tree().get_nodes_in_group('score')])
+
 
 	for level in get_tree().get_nodes_in_group('level'):
 		level.connect('on_pressed', self, '_level_pressed')
@@ -44,6 +45,7 @@ func setup_progress():
 		$ctnr_level.get_children()[progress.progress].get_node('grey').text = ''
 		for btn in $ctnr_level.get_children()[progress.progress].get_children():
 			btn.disabled = true
+#			btn.material = null
 
 
 func set_spaces(text):

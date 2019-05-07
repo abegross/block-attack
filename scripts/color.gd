@@ -19,74 +19,76 @@ func color_randomize():
 func randomizer(array = null) -> Color:
 	color_randomize()
 
-	for item in array:
-		if item is Color:
-			item = color
-		elif item is Theme:
-			item.set_color("font_color", "Button", color)
-			item.set_color("font_color", "Label", color)
-		elif item is Button:
-			var stylebox = StyleBoxFlat.new()
-			stylebox.bg_color = color
-#					print(color)
-			item.theme.set_stylebox('normal', 'Button', stylebox)
-#					stylebox.bg_color = color.darkened(0.2)
-			item.theme.set_stylebox('hover', 'Button', stylebox)
-#					stylebox.bg_color = color.darkened(0.3)
-			item.theme.set_stylebox('pressed', 'Button', stylebox)
-#					subitem.get_stylebox("normal", 'Button').bg_color = color
-#					print(subitem.get_stylebox('normal').bg_color)
-			item.get_stylebox("hover", 'Button').bg_color = color.darkened(0.2)
-#					print(color.darkened(0.2))
-			item.get_stylebox("pressed", 'Button').bg_color = color.darkened(0.3)
-		elif item is Panel:
-			var stylebox = StyleBoxFlat.new()
-			stylebox.bg_color = color
-			item.theme.set_stylebox('panel', 'Panel', stylebox)
-		elif item is Array:
-			for subitem in item:
-				if subitem is Color:
-					subitem = color
-				elif subitem is Theme:
-					subitem.set_color("font_color", "Button", color)
-					subitem.set_color("font_color", "Label", color)
-				elif subitem is Button:
-					var stylebox = StyleBoxFlat.new()
-					stylebox.bg_color = color
-#					print(color)
-					subitem.theme.set_stylebox('normal', 'Button', stylebox)
-#					stylebox.bg_color = color.darkened(0.2)
-					subitem.theme.set_stylebox('hover', 'Button', stylebox)
-#					stylebox.bg_color = color.darkened(0.3)
-					subitem.theme.set_stylebox('pressed', 'Button', stylebox)
-#					subitem.get_stylebox("normal", 'Button').bg_color = color
-#					print(subitem.get_stylebox('normal').bg_color)
-					subitem.get_stylebox("hover", 'Button').bg_color = color.darkened(0.2)
-#					print(color.darkened(0.2))
-					subitem.get_stylebox("pressed", 'Button').bg_color = color.darkened(0.3)
-				elif subitem is Panel:
-#					print(subitem.theme.get_stylebox_types())
-#					print(subitem.them.get_stylebox_list('panel'))
-					var stylebox = StyleBoxFlat.new()
-					stylebox.bg_color = color
-					subitem.theme.set_stylebox('panel', 'Panel', stylebox)
-				elif subitem is Theme:
-					var stylebox = StyleBoxFlat.new()
-					stylebox.bg_color = color
-					subitem.set_stylebox('panel', 'Panel', stylebox)
-				elif subitem is Array:
-					for subsubitem in subitem:
-						subsubitem.set_modulate(color)
-				elif subitem.has_node('sprite'):
-					subitem.get_node('sprite').set_modulate(color)
-				else:
-					subitem.set_modulate(color)
-		else:
-			item.self_modulate = Color(1,1,1,1)
-			item.self_modulate = color
-
-		color.h += 1.0/len(array)
-		if color.h > 1: color.h = color.h - 1
+#	for item in array:
+#		if item is Color:
+#			item = color
+#		elif item is Theme:
+#			item.set_color("font_color", "Button", color)
+#			item.set_color("font_color", "Label", color)
+#		elif item is Button:
+#			var stylebox = StyleBoxFlat.new()
+#			stylebox.bg_color = color
+##					print(color)
+#			item.theme.set_stylebox('normal', 'Button', stylebox)
+##					stylebox.bg_color = color.darkened(0.2)
+#			item.theme.set_stylebox('hover', 'Button', stylebox)
+##					stylebox.bg_color = color.darkened(0.3)
+#			item.theme.set_stylebox('pressed', 'Button', stylebox)
+##					subitem.get_stylebox("normal", 'Button').bg_color = color
+##					print(subitem.get_stylebox('normal').bg_color)
+#			item.get_stylebox("hover", 'Button').bg_color = color.darkened(0.2)
+##					print(color.darkened(0.2))
+#			item.get_stylebox("pressed", 'Button').bg_color = color.darkened(0.3)
+#		elif item is Panel:
+#			var stylebox = StyleBoxFlat.new()
+#			stylebox.bg_color = color
+#			item.theme.set_stylebox('panel', 'Panel', stylebox)
+#		elif item is Array:
+#			for subitem in item:
+#				if subitem is Color:
+#					subitem = color
+#				elif subitem is Theme:
+#					subitem.set_color("font_color", "Button", color)
+#					subitem.set_color("font_color", "Label", color)
+#				elif subitem is Button:
+#					var stylebox = StyleBoxFlat.new()
+#					stylebox.bg_color = color
+##					print(color)
+#					subitem.theme.set_stylebox('normal', 'Button', stylebox)
+##					stylebox.bg_color = color.darkened(0.2)
+#					subitem.theme.set_stylebox('hover', 'Button', stylebox)
+##					stylebox.bg_color = color.darkened(0.3)
+#					subitem.theme.set_stylebox('pressed', 'Button', stylebox)
+##					subitem.get_stylebox("normal", 'Button').bg_color = color
+##					print(subitem.get_stylebox('normal').bg_color)
+#					subitem.get_stylebox("hover", 'Button').bg_color = color.darkened(0.2)
+##					print(color.darkened(0.2))
+#					subitem.get_stylebox("pressed", 'Button').bg_color = color.darkened(0.3)
+#				elif subitem is Panel:
+##					print(subitem.theme.get_stylebox_types())
+##					print(subitem.them.get_stylebox_list('panel'))
+#					var stylebox = StyleBoxFlat.new()
+#					stylebox.bg_color = color
+#					subitem.theme.set_stylebox('panel', 'Panel', stylebox)
+#				elif subitem is Theme:
+#					var stylebox = StyleBoxFlat.new()
+#					stylebox.bg_color = color
+#					subitem.set_stylebox('panel', 'Panel', stylebox)
+#				elif subitem is Array:
+#					for subsubitem in subitem:
+#						subsubitem.set_modulate(color)
+#				elif subitem.has_node('sprite'):
+#					subitem.get_node('sprite').set_modulate(color)
+#				else:
+#					subitem.set_modulate(color)
+#		else:
+#			item.self_modulate = Color(1,1,1,1)
+#			item.self_modulate = color
+#
+#		color.h += 1.0/len(array)
+#		if color.h > 1: color.h = color.h - 1
+#		if item is ColorRect:
+#			item.set_modulate('#ffffff')
 	return color
 
 

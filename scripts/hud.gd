@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Container
 
 onready var score = $ctnr_hbox/score
 onready var highscore = $ctnr_hbox2/highscore

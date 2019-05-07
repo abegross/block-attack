@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/TempleOS_Risen.ogg-35922649af8ec035ae17d39f038ac377.oggstr"
+
+[deps]
+
+source_file="res://sounds/TempleOS_Risen.ogg"
+dest_files=[ "res://.import/TempleOS_Risen.ogg-35922649af8ec035ae17d39f038ac377.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

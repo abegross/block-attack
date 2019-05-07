@@ -24,6 +24,7 @@ color_ramp = SubResource( 2 )
 
 [node name="particles" type="Particles2D"]
 position = Vector2( 378, 594 )
+emitting = false
 amount = 5
 lifetime = 0.5
 one_shot = true

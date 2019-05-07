@@ -1,7 +1,4 @@
-[gd_scene load_steps=9 format=2]
-
-[ext_resource path="res://shader.tres" type="Shader" id=1]
-[ext_resource path="res://sprites/background.png" type="Texture" id=2]
+[gd_scene load_steps=7 format=2]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -18,21 +15,22 @@ void fragment()
 	COLOR = texture(gradient, vec2(UV.y + (rand(UV)-0.5) * 0.04, 0));
 }"
 
-[sub_resource type="Gradient" id=5]
-colors = PoolColorArray( 0.117647, 0.117647, 0.117647, 1, 0.372549, 0.372549, 0.372549, 1 )
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0.234375, 0.234375, 0.234375, 1, 0.125, 0.125, 0.125, 1 )
 
-[sub_resource type="GradientTexture" id=6]
-gradient = SubResource( 5 )
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=4]
 shader = SubResource( 1 )
-shader_param/gradient = SubResource( 6 )
+shader_param/gradient = SubResource( 3 )
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=5]
 script/source = "extends ColorRect
 
 onready var scl = Vector2(25.313, 38.813)
-onready var screen = Vector2(1080, 1920)
+onready var screen = rect_size
+onready var brightness = $env.environment.glow_bloom
 
 #var newscale : Vector2
 var newscreen : Vector2
@@ -45,8 +43,8 @@ func _notification(notification):
 		newscreen = get_viewport_rect().size
 		ratio.x = newscreen.x / screen.x
 		ratio.y = newscreen.y / screen.y
-		scale = Vector2(scl.x * ratio.x, scl.y * ratio.y)
-		print(scale)
+		rect_scale = Vector2(scl.x * ratio.x, scl.y * ratio.y)
+		print(rect_scale)
 
 
 func set_offset(value):
@@ -54,26 +52,21 @@ func set_offset(value):
 	$shader.material.set_shader_param('ca', chromatic_aberration)
 	print('ca ',chromatic_aberration)"
 
-[sub_resource type="ShaderMaterial" id=4]
-shader = ExtResource( 1 )
-shader_param/ca = Vector3( 0.03, 0.02, 0 )
+[sub_resource type="Environment" id=6]
+background_mode = 4
+glow_enabled = true
+glow_bicubic_upscale = true
 
 [node name="background" type="ColorRect"]
-material = SubResource( 2 )
-margin_left = -300.0
-margin_top = 2200.0
-margin_right = -273.0
-margin_bottom = 2230.0
+material = SubResource( 4 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_vertical = 0
 rect_scale = Vector2( 61.9256, -83.1743 )
 mouse_filter = 2
-color = Color( 0.215686, 0.215686, 0.215686, 1 )
-script = SubResource( 3 )
+color = Color( 0.184314, 0.0901961, 0.0901961, 1 )
+script = SubResource( 5 )
 
-[node name="shader" type="Sprite" parent="."]
-visible = false
-material = SubResource( 4 )
-z_index = 5
-texture = ExtResource( 2 )
-centered = false
+[node name="env" type="WorldEnvironment" parent="."]
+environment = SubResource( 6 )
 

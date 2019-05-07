@@ -15,7 +15,7 @@ func shake(new_magnitude, new_lifetime, change):
 
 	shader.material.set_shader_param('ca', Vector3(0,0,0))
 	var ca = shader.material.get_shader_param('ca')
-	print(ca)
+#	print(ca)
 	change = change if randf()>.5 else -change
 	while timeleft > 0:
 #		print(magnitude)
@@ -28,7 +28,7 @@ func shake(new_magnitude, new_lifetime, change):
 		pos.x = rand_range(-magnitude, magnitude)
 		pos.y = rand_range(-magnitude, magnitude)
 		position = pos
-		print('in here ', ca)
+#		print('in here ', ca)
 
 		timeleft -= get_process_delta_time()
 		yield(get_tree(), 'idle_frame')
