@@ -13,14 +13,8 @@ func _ready():
 
 	randomize()
 	apply_impulse(Vector2(),Vector2(speed, 0).rotated(rand_range(0*PI, 2*PI)))
-#	var current_time = 0.0
-#	var duration = 0.5
-#	var tscale = 0.01
-#	while current_time < duration:
-#		Engine.time_scale = tscale
-#		tscale += 0.01
-#		current_time += get_process_delta_time()
-#		yield(get_tree(), 'idle_frame')
+
+	Engine.time_scale = 0
 
 func _on_enemy_body_entered(body):
 	score_controller.score_a_point()

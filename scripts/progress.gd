@@ -13,11 +13,11 @@ func _ready():
 		file.close()
 
 func update_progress():
-	if gamemode.BUMPERS.highscore > 100:
+	if gamemode.BUMPERS.highscore >= 100:
 		progress = 2
-	if gamemode.REGULAR.highscore > 100:
+	if gamemode.REGULAR.highscore >= 100:
 		progress = 3
-	if gamemode.INTANGIBLE.highscore > 100:
+	if gamemode.INTANGIBLE.highscore >= 100:
 		progress = 4
 
 	save()

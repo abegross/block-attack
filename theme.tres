@@ -4,13 +4,13 @@
 [ext_resource path="res://neon_button.tres" type="StyleBox" id=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
+content_margin_left = 20.0
 draw_center = false
-border_width_left = 1023
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color( 0.176471, 0.984314, 0.964706, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 1, 0.235294, 0.235294, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.627451, 0.627451, 0.627451, 0.67451 )
@@ -33,7 +33,7 @@ Button/styles/focus = ExtResource( 2 )
 Button/styles/hover = ExtResource( 2 )
 Button/styles/normal = ExtResource( 2 )
 Button/styles/pressed = null
-Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color = Color( 0.313726, 0.313726, 0.313726, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
 Label/constants/line_spacing = 3
 Label/constants/shadow_as_outline = 0

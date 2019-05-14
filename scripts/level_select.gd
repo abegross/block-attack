@@ -26,8 +26,11 @@ func _ready():
 func _level_pressed(text):
 #	print(gamemode.current_gamemode.name())
 	gamemode.set_gamemode(text)
-	print(gamemode.current_gamemode.name())
-	level_manager.goto_current_gamemode_level()
+#	print(gamemode.current_gamemode.name())
+	if gamemode.current_gamemode.highscore == 0:
+		get_tree().change_scene_to(preload("res://scenes/tutorials.tscn"))
+	else:
+		level_manager.goto_current_gamemode_level()
 
 func setup_progress():
 	"""
@@ -42,6 +45,7 @@ func setup_progress():
 	if progress.progress < 4:
 		$ctnr_level.get_children()[progress.progress].show()
 		$ctnr_level.get_children()[progress.progress].get_node('grey').icon = preload('res://sprites/lock.png')
+		$ctnr_level.get_children()[progress.progress].get_node('grey').rect_min_size.x = 250
 		$ctnr_level.get_children()[progress.progress].get_node('grey').text = ''
 		for btn in $ctnr_level.get_children()[progress.progress].get_children():
 			btn.disabled = true

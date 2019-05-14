@@ -12,17 +12,38 @@ onready var box_offset = 2.3*$player.scale.x
 # the actual size of the ctrl_area
 onready var ctrl_area = $background/ctrl_area
 onready var play_area = $background/play_area
+#var original_x
 
 
 func _ready():
-	audio_player.start_sound()
-	if gamemode.BUMPERS.is_current_gamemode():
+	if gamemode.BUMPERS.is_current_gamemode() or gamemode.TELEPORT.is_current_gamemode():
 		$background/bumpers.show()
+
+	audio_player.start_sound()
+
+#	if gamemode.current_gamemode.highscore == 0:
+#		$background/hint.texture = preload("res://sprites/hint_regular.png")
+#		$background/hint.show()
+#		yield($background/hint, "tree_exited")
+
+	#  start off slow mo
+#	var current_time = 0.0
+#	var duration = 0.5
+#	var tscale = 0.01
+#	while current_time < duration:
+#		Engine.time_scale = tscale
+#		tscale += 0.01
+#		current_time += get_process_delta_time()
+#		yield(get_tree(), 'idle_frame')
+
+	Engine.time_scale = 1
+
+#	 original_x = get_viewport_rect().size.x
 
 	#if we restart the game, reset the score
 	score_controller.reset()
 
-	color.randomizer([background, [$enemies.get_children(), $color_holder/enemies], [ctrl_area, play_area, $hud.get_children()], [$player.get_node('sprite'), $color_holder/player]])
+#	color.randomizer([background, [$enemies.get_children(), $color_holder/enemies], [ctrl_area, play_area, $hud.get_children()], [$player.get_node('sprite'), $color_holder/player]])
 	score_controller.connect('score_changed', self, "enemies_colliding")
 	for enemy in get_tree().get_nodes_in_group('enemy'):
 		enemy.connect('hit', self, 'bump')
@@ -49,12 +70,15 @@ func _process(delta):
 				if Input.is_action_just_pressed('press'):
 					$anim.play("vzhew-in")
 					yield($anim, "animation_finished")
-					$player.position = play_area.to_global(Vector2(x, y))
+					#theres a frame after the block explodes where u can still reach this code, so this stops a crash
+					if $player:
+						$player.position = play_area.to_global(Vector2(x, y))
 					$anim.play("vzhew-out")
 
 			# BUMPERS mode code:
 			gamemode.BUMPERS:
 				move(15)
+	update()
 
 
 func move(speed):
@@ -64,7 +88,9 @@ func move(speed):
 		speed:  a percentage of how far along the interpolation is.
 	"""
 	if has_node('player'):
+#		play_area.to_global(Vector2(x,y))
 		$player.position = $player.position.linear_interpolate(play_area.to_global(Vector2(x,y)), (get_process_delta_time() * speed))
+		pass
 
 
 func _on_gameover():
@@ -106,3 +132,9 @@ func bump(enemy):
 	p.position = enemy.position
 	p.emitting = true
 	$enemies.add_child(p)
+
+func _draw() -> void:
+	rect_position.x = -(get_viewport_rect().size.x-1080)/2
+	draw_circle($background/play_area.to_global(Vector2(0,0)),10, Color.red)
+#	print($background/ctrl_area.position)
+#	print("resized ", get_viewport_rect().size.x-1080)

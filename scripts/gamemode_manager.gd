@@ -1,5 +1,5 @@
 extends Node
-
+class_name gamemode
 """
 Where all the inner workings any gamemode is.
 It's set up in a way that to add or remove or change any gamemode,
@@ -27,8 +27,8 @@ func _init(gamemode_name):
 	self.level_name = gamemode_name
 	highscores = get_highscores()
 	highscore = highscores[0][0]
-	print(highscores)
-	print(highscores[0][1])
+#	print(highscores)
+#	print(highscores[0][1])
 
 
 func get_highscores() -> Array:
@@ -65,12 +65,12 @@ func save_highscore():
 			break
 	while len(highscores) > 10:
 		highscores.pop_back()
-	print('writing')
+#	print('writing')
 	file.open(filepath, File.WRITE)
 #	file.store_string(str(highscores)+"\n"+str(dates))
 	file.store_string(var2str(highscores))
 	file.close()
-	print('done')
+#	print('done')
 
 
 func set_highscore(new_highscore):

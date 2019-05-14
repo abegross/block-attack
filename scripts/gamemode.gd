@@ -19,7 +19,7 @@ func set_gamemode(gamemode_string):
 		gamemodeString: The string representation of the gamemode. Must be in all caps.
 	"""
 	for gamemode in gamemodes:
-		if gamemode.name() == gamemode_string:
+		if gamemode.name().to_lower() == gamemode_string.to_lower():
 			current_gamemode = gamemode
 
 
@@ -32,7 +32,7 @@ func get_gamemode(gamemode_string):
 		The specified gamemode.
 	"""
 	for gamemode in gamemodes:
-		if gamemode.name() == gamemode_string:
+		if gamemode.name().to_lower() == gamemode_string.to_lower():
 			return gamemode
 
 	return null

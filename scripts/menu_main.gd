@@ -7,7 +7,7 @@ extends VBoxContainer
 #var isTop = true
 #var adBannerId = "ca-app-pub-3940256099942544/6300978111" # [Replace with your Ad Unit ID and delete this message.]
 #var adInterstitialId = "ca-app-pub-3940256099942544/8691691433" # [Replace with your Ad Unit ID and delete this message.]
-#var adRewardedId = "ca-app-pub-3940256099942544/5224354917" # [There is no testing option for rewarded videos, so you can use this id for testing]
+#var adRewardedId = "ca-app-pub-3940Z256099942544/5224354917" # [There is no testing option for rewarded videos, so you can use this id for testing]
 
 #func _ready():
 #	color.randomizer([background, $btn_start, theme])

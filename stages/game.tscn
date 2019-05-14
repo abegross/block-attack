@@ -1,93 +1,48 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://light.material" type="Material" id=2]
 [ext_resource path="res://sprites/bumper.png" type="Texture" id=3]
-[ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/player.gd" type="Script" id=5]
-[ext_resource path="res://sprites/block.png" type="Texture" id=6]
-[ext_resource path="res://scripts/shake.gd" type="Script" id=7]
-[ext_resource path="res://shader.tres" type="Shader" id=8]
-[ext_resource path="res://sprites/background.png" type="Texture" id=9]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=10]
+[ext_resource path="res://sprites/hint_regular.png" type="Texture" id=4]
+[ext_resource path="res://scenes/enemy.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/player.gd" type="Script" id=6]
+[ext_resource path="res://sprites/block.png" type="Texture" id=7]
+[ext_resource path="res://scripts/shake.gd" type="Script" id=8]
+[ext_resource path="res://shader.tres" type="Shader" id=9]
+[ext_resource path="res://sprites/background.png" type="Texture" id=10]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=11]
 
-[sub_resource type="VisualShaderNodeVec3Uniform" id=1]
-uniform_name = "dim"
+[sub_resource type="GDScript" id=1]
+script/source = "extends Sprite
 
-[sub_resource type="VisualShaderNodeInput" id=2]
-input_name = "vertex"
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed(\"press\"):
+		queue_free()"
 
-[sub_resource type="VisualShaderNodeVectorOp" id=3]
+[sub_resource type="PhysicsMaterial" id=2]
+friction = 0.0
+bounce = 1.0
 
-[sub_resource type="VisualShader" id=4]
-code = "shader_type canvas_item;
+[sub_resource type="PhysicsMaterial" id=3]
+friction = 0.0
+bounce = 1.0
 
+[sub_resource type="PhysicsMaterial" id=4]
+friction = 0.0
+bounce = 1.0
 
-
-void vertex() {
-// 入力:3
-	vec3 n_out3p0;
-	n_out3p0 = vec3(VERTEX,0.0);
-
-// VectorOp:5
-	vec3 n_in5p1 = vec3(0.00000,0.00000,0.00000);
-	vec3 n_out5p0;
-	n_out5p0 = n_out3p0 + n_in5p1;
-
-// 出力:0
-	VERTEX = n_out5p0.xy;
-
-}
-
-void fragment() {
-// 出力:0
-
-}
-
-void light() {
-// 出力:0
-
-}
-"
-graph_offset = Vector2( 312.75, 0 )
-mode = 1
-flags/light_only = false
-nodes/vertex/0/position = Vector2( 1200, 220 )
-nodes/vertex/3/node = SubResource( 2 )
-nodes/vertex/3/position = Vector2( 720, 180 )
-nodes/vertex/5/node = SubResource( 3 )
-nodes/vertex/5/position = Vector2( 960, 180 )
-nodes/vertex/connections = PoolIntArray( 3, 0, 5, 0, 5, 0, 0, 0 )
-nodes/fragment/0/position = Vector2( 1200, 340 )
-nodes/fragment/2/node = SubResource( 1 )
-nodes/fragment/2/position = Vector2( 540, 320 )
-
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 4 )
+[sub_resource type="PhysicsMaterial" id=5]
+friction = 0.0
+bounce = 1.0
 
 [sub_resource type="PhysicsMaterial" id=6]
 friction = 0.0
-bounce = 1.0
 
-[sub_resource type="PhysicsMaterial" id=7]
-friction = 0.0
-bounce = 1.0
-
-[sub_resource type="PhysicsMaterial" id=8]
-friction = 0.0
-bounce = 1.0
-
-[sub_resource type="PhysicsMaterial" id=9]
-friction = 0.0
-bounce = 1.0
-
-[sub_resource type="PhysicsMaterial" id=10]
-friction = 0.0
-
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 32, 32 )
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=8]
+resource_name = "vzhew-in"
 length = 0.2
 step = 0.02
 tracks/0/type = "value"
@@ -102,8 +57,20 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1e-05, 1e-05 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("player:contact_monitor")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=9]
 resource_name = "vzhew-out"
 length = 0.2
 step = 0.02
@@ -119,10 +86,39 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("player:contact_monitor")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="ShaderMaterial" id=14]
-shader = ExtResource( 8 )
+[sub_resource type="ShaderMaterial" id=10]
+shader = ExtResource( 9 )
 shader_param/ca = Vector3( 0, 0, 0 )
+
+[sub_resource type="GDScript" id=11]
+script/source = "extends Sprite
+
+onready var scl = Vector2(25.313, 38.813)
+onready var screen = scale
+
+#var newscale : Vector2
+var newscreen : Vector2
+var ratio : Vector2
+
+func _draw():
+	newscreen = get_viewport_rect().size
+	ratio.x = newscreen.x / screen.x
+	ratio.y = newscreen.y / screen.y
+	scale = Vector2(scl.x * ratio.x, scl.y * ratio.y)
+	print(scale)"
 
 [node name="board" type="Control"]
 anchor_right = 1.0
@@ -130,7 +126,6 @@ anchor_bottom = 1.0
 script = ExtResource( 1 )
 
 [node name="background" type="Node" parent="."]
-editor/display_folded = true
 
 [node name="play_area" type="Sprite" parent="background"]
 modulate = Color( 0.176471, 0.984314, 0.964706, 1 )
@@ -140,7 +135,7 @@ scale = Vector2( 13.5, 13.5 )
 texture = ExtResource( 3 )
 
 [node name="ctrl_area" type="Sprite" parent="background"]
-material = SubResource( 5 )
+material = ExtResource( 2 )
 position = Vector2( 540, 1404 )
 scale = Vector2( 10, 10 )
 texture = ExtResource( 3 )
@@ -152,23 +147,31 @@ scale = Vector2( 14, 14 )
 z_index = 3
 texture = ExtResource( 3 )
 
+[node name="hint" type="Sprite" parent="background"]
+visible = false
+scale = Vector2( 2.55924, 2.6158 )
+texture = ExtResource( 4 )
+centered = false
+script = SubResource( 1 )
+
 [node name="enemies" type="Node" parent="."]
+editor/display_folded = true
 
-[node name="enemy2" parent="enemies" instance=ExtResource( 4 )]
+[node name="enemy2" parent="enemies" instance=ExtResource( 5 )]
 position = Vector2( 216, 270 )
-physics_material_override = SubResource( 6 )
+physics_material_override = SubResource( 2 )
 
-[node name="enemy3" parent="enemies" instance=ExtResource( 4 )]
+[node name="enemy3" parent="enemies" instance=ExtResource( 5 )]
 position = Vector2( 864, 270 )
-physics_material_override = SubResource( 7 )
+physics_material_override = SubResource( 3 )
 
-[node name="enemy4" parent="enemies" instance=ExtResource( 4 )]
+[node name="enemy4" parent="enemies" instance=ExtResource( 5 )]
 position = Vector2( 216, 918 )
-physics_material_override = SubResource( 8 )
+physics_material_override = SubResource( 4 )
 
-[node name="enemy1" parent="enemies" instance=ExtResource( 4 )]
+[node name="enemy1" parent="enemies" instance=ExtResource( 5 )]
 position = Vector2( 864, 918 )
-physics_material_override = SubResource( 9 )
+physics_material_override = SubResource( 5 )
 
 [node name="player" type="RigidBody2D" parent="."]
 self_modulate = Color( 1, 0.494118, 0.494118, 1 )
@@ -178,22 +181,23 @@ scale = Vector2( 1.5, 1.5 )
 z_index = 1
 collision_mask = 6
 mode = 3
-physics_material_override = SubResource( 10 )
+physics_material_override = SubResource( 6 )
 gravity_scale = 0.0
-contacts_reported = 3
+contacts_reported = 5
 contact_monitor = true
 linear_damp = 0.0
 angular_damp = 0.0
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="sprite" type="Sprite" parent="player"]
-modulate = Color( 1, 0.235294, 0.235294, 1 )
+modulate = Color( 1.60082, 0.345926, 0.345926, 1 )
 material = ExtResource( 2 )
-texture = ExtResource( 6 )
+use_parent_material = true
+texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
 modulate = Color( 1, 1, 1, 0.425412 )
-shape = SubResource( 11 )
+shape = SubResource( 7 )
 
 [node name="walls" type="Node" parent="."]
 editor/display_folded = true
@@ -245,7 +249,7 @@ polygon = PoolVector2Array( 1350, -270, 972, -270, 972, 108, 972, 972, 972, 1350
 [node name="camera" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 
 [node name="color_holder" type="Node" parent="."]
 editor/display_folded = true
@@ -262,21 +266,19 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/vzhew-in = SubResource( 12 )
-anims/vzhew-out = SubResource( 13 )
+playback_speed = 2.0
+anims/vzhew-in = SubResource( 8 )
+anims/vzhew-out = SubResource( 9 )
 
 [node name="shader" type="Sprite" parent="."]
-material = SubResource( 14 )
+material = SubResource( 10 )
 position = Vector2( -3.8147e-06, 0 )
 scale = Vector2( 33.75, 60 )
 z_index = 5
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
+script = SubResource( 11 )
 
-[node name="Node2D" type="Node2D" parent="."]
-
-[node name="hud" parent="." instance=ExtResource( 10 )]
+[node name="hud" parent="." instance=ExtResource( 11 )]
 
 [connection signal="body_entered" from="player" to="player" method="_on_player_body_entered"]
-
-[editable path="enemies/enemy4"]

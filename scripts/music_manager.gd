@@ -4,6 +4,7 @@ var audio : AudioStreamPlayer
 var lpf # low pass filter
 var eq
 var started = false
+var muted = false setget toggle_mute
 
 func _ready():
 	audio = $risen
@@ -25,11 +26,15 @@ func _ready():
 #		pressed = not pressed
 #		print(pressed)
 
+func toggle_mute(_muted):
+	muted = _muted
+	toggle_pause()
+
 """
 toggles the audio on and off
 """
 func toggle_pause():
-	if  audio.stream_paused:
+	if audio.stream_paused:
 		audio.set_stream_paused(false)
 	else:
 		audio.set_stream_paused(true)
@@ -41,20 +46,22 @@ args:
 	wait_time: how long the death time should take
 """
 func death_sound(wait_time):
-	transition_sound(0.0, 0, true, wait_time)
-#	toggle_pause()
+	if not muted:
+		transition_sound(0.0, 0, true, wait_time)
+#		toggle_pause()
 
 
 """
 Make the music start and do a cool starting up effect
 """
 func start_sound():
-#	if not started:
-#		audio.play()
-#		started = true
-#	else:
-	audio.set_stream_paused(false)
-	transition_sound(1.0, 10000, false, 0.5)
+	if not muted:
+	#	if not started:
+	#		audio.play()
+	#		started = true
+	#	else:
+		audio.set_stream_paused(false)
+		transition_sound(1.0, 10000, false, 0.5)
 
 
 """
