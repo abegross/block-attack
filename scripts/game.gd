@@ -12,45 +12,45 @@ onready var box_offset = 2.3*$player.scale.x
 # the actual size of the ctrl_area
 onready var ctrl_area = $background/ctrl_area
 onready var play_area = $background/play_area
-#var original_x
+var is_teleporting : bool = false
 
 
 func _ready():
 	if gamemode.BUMPERS.is_current_gamemode() or gamemode.TELEPORT.is_current_gamemode():
-		$background/bumpers.show()
+		play_area.modulate = Color.white
 
 	audio_player.start_sound()
-
-#	if gamemode.current_gamemode.highscore == 0:
-#		$background/hint.texture = preload("res://sprites/hint_regular.png")
-#		$background/hint.show()
-#		yield($background/hint, "tree_exited")
-
-	#  start off slow mo
-#	var current_time = 0.0
-#	var duration = 0.5
-#	var tscale = 0.01
-#	while current_time < duration:
-#		Engine.time_scale = tscale
-#		tscale += 0.01
-#		current_time += get_process_delta_time()
-#		yield(get_tree(), 'idle_frame')
-
-	Engine.time_scale = 1
-
-#	 original_x = get_viewport_rect().size.x
-
 	#if we restart the game, reset the score
 	score_controller.reset()
+	score_controller.connect('score_changed', self, "enemies_colliding")
+
+
+#	var a = InputEventMouseButton.new()
+#	a.set_button_index(1)
+#	a.position = Vector2(540, 1404)#ctrl_area.to_global(Vector2())
+#	print(a.position)
+#	a.set_pressed(true)
+#	Input.parse_input_event(a)
+
+
+	#  start off slow mo
+	var current_time = 0.0
+	var duration = 0.5
+	var tscale = 0.01
+	while current_time < duration:
+		Engine.time_scale = tscale
+		tscale += 0.01
+		current_time += get_process_delta_time()
+		yield(get_tree(), 'idle_frame')
 
 #	color.randomizer([background, [$enemies.get_children(), $color_holder/enemies], [ctrl_area, play_area, $hud.get_children()], [$player.get_node('sprite'), $color_holder/player]])
-	score_controller.connect('score_changed', self, "enemies_colliding")
 	for enemy in get_tree().get_nodes_in_group('enemy'):
 		enemy.connect('hit', self, 'bump')
 
 
 func _process(delta):
 	finger = ctrl_area.get_local_mouse_position()
+#	print(finger)
 
 	x = clamp(finger.x, -area_size+box_offset, area_size-box_offset)
 	y = clamp(finger.y, -area_size+box_offset, area_size-box_offset)
@@ -67,13 +67,15 @@ func _process(delta):
 
 			# TELEPORT mode code:
 			gamemode.TELEPORT:
-				if Input.is_action_just_pressed('press'):
+				if Input.is_action_just_pressed('press') and is_teleporting == false:
+					is_teleporting = true
 					$anim.play("vzhew-in")
 					yield($anim, "animation_finished")
 					#theres a frame after the block explodes where u can still reach this code, so this stops a crash
 					if $player:
 						$player.position = play_area.to_global(Vector2(x, y))
 					$anim.play("vzhew-out")
+					is_teleporting = false
 
 			# BUMPERS mode code:
 			gamemode.BUMPERS:
@@ -95,7 +97,11 @@ func move(speed):
 
 func _on_gameover():
 	progress.update_progress()
-	level_manager.load_level(level_manager.menu_gameover)
+	if(Engine.has_singleton("AdMob")):
+		var admob = Engine.get_singleton("AdMob")
+		if admob != null and randf()<0.06: # 1 in 15 chance to show interstitial
+			admob.showInterstitial()
+	level_manager.goto_level(level_manager.menu_gameover)
 	score_controller.gameover = false
 	gamemode.current_gamemode.save_highscore()
 
@@ -133,8 +139,8 @@ func bump(enemy):
 	p.emitting = true
 	$enemies.add_child(p)
 
-func _draw() -> void:
-	rect_position.x = -(get_viewport_rect().size.x-1080)/2
-	draw_circle($background/play_area.to_global(Vector2(0,0)),10, Color.red)
-#	print($background/ctrl_area.position)
-#	print("resized ", get_viewport_rect().size.x-1080)
+
+func _notification(what: int) -> void:
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+		get_tree().paused = true
+		$CanvasLayer/panel.show()

@@ -9,6 +9,7 @@ func _ready():
 
 	for level in get_tree().get_nodes_in_group('level'):
 		level.connect('on_pressed', self, '_level_pressed')
+		print(level.text)
 		var text = str(gamemode.get_gamemode(level.text).highscore)
 		level.get_node('../grey').text = set_spaces(text)
 		level.rect_min_size.x = 600

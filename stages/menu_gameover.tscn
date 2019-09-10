@@ -1,33 +1,72 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://theme.tres" type="Theme" id=1]
-[ext_resource path="res://light.material" type="Material" id=2]
-[ext_resource path="res://fonts/bocvi.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=2]
+[ext_resource path="res://light.material" type="Material" id=3]
+[ext_resource path="res://fonts/bocvi.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 #func _ready():
+#	TranslationServer.set_locale(\"en\")
 #	color.randomizer([background, [$ctnr_hbox/VBoxContainer/btn_restart, $ctnr_hbox/VBoxContainer/btn_lvl_select], theme, $hud.get_children()])"
 
 [sub_resource type="DynamicFont" id=2]
 size = 200
 outline_size = 5
 outline_color = Color( 0.988235, 0, 1, 1 )
-font_data = ExtResource( 3 )
+font_data = ExtResource( 4 )
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=8]
+script/source = "extends Control
+
+func _ready() -> void:
+	var animate:bool
+	match name:
+		\"new_highscore\":
+			animate = (score_controller.score == gamemode.current_gamemode.highscore)
+		\"new_gamemode\":
+			animate = progress.changed
+	if animate:
+		var label = $label
+		$tween.interpolate_property(label, \"rect_scale\", Vector2(5,5), Vector2(1,1), 1, Tween.TRANS_QUINT, Tween.EASE_IN)
+		$tween.interpolate_property(label, \"modulate\", Color(0,0,0,0), label.modulate, 1, Tween.TRANS_QUINT, Tween.EASE_IN)
+		$tween.start()
+		show()
+"
+
+[sub_resource type="DynamicFont" id=3]
+size = 100
+outline_size = 5
+outline_color = Color( 0.988235, 0, 1, 1 )
+font_data = ExtResource( 4 )
+
+[sub_resource type="GDScript" id=5]
 script/source = "extends Button
 
 func _pressed():
-	level_manager.load_level(level_manager.game)"
+	level_manager.goto_level(level_manager.game)"
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=6]
 script/source = "extends Button
 
 func _pressed():
-	level_manager.load_level(level_manager.menu_level_select)"
+	level_manager.goto_level(level_manager.menu_level_select)"
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends Button
+
+var share = null # our share singleton instance
+
+func _ready():
+	# initialize the share singleton if it exists
+	if Engine.has_singleton(\"GodotShare\"):
+		share = Engine.get_singleton(\"GodotShare\")
+
+func _pressed() -> void:
+	if share:
+		share.shareText(\"Share this amazing game!\", \"Get Dodge the Barrage. Now FREE!\", \"Download \\\"Dodge the Barrage\\\" now for FREE!\\nhttps://play.google.com/store/apps/details?id=com.shpiel.dodge_the_barrage\")"
 
 [node name="menu_game_over" type="Control"]
 anchor_left = 0.5
@@ -41,53 +80,130 @@ margin_bottom = 960.0
 theme = ExtResource( 1 )
 script = SubResource( 1 )
 
-[node name="ctnr_hbox" type="VBoxContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -398.5
-margin_top = -420.5
-margin_right = 398.5
-margin_bottom = 420.5
-custom_constants/separation = 600
-alignment = 1
+[node name="hud" parent="." instance=ExtResource( 2 )]
+mouse_filter = 2
 
-[node name="title" type="Label" parent="ctnr_hbox"]
-material = ExtResource( 2 )
-margin_right = 797.0
+[node name="margin_container" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 150
+custom_constants/margin_top = 200
+custom_constants/margin_left = 150
+
+[node name="ctnr_hbox" type="VBoxContainer" parent="margin_container"]
+margin_left = 150.0
+margin_top = 200.0
+margin_right = 930.0
+margin_bottom = 1920.0
+
+[node name="title" type="Label" parent="margin_container/ctnr_hbox"]
+material = ExtResource( 3 )
+margin_right = 780.0
 margin_bottom = 213.0
 custom_fonts/font = SubResource( 2 )
-text = "block attack"
+text = "NAME"
+align = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ctnr_hbox"]
-margin_top = 813.0
-margin_right = 797.0
-margin_bottom = 1309.0
-custom_constants/separation = 200
+[node name="VBoxContainer" type="VBoxContainer" parent="margin_container/ctnr_hbox"]
+margin_top = 217.0
+margin_right = 780.0
+margin_bottom = 1720.0
+size_flags_vertical = 3
 alignment = 1
 
-[node name="btn_restart" type="Button" parent="ctnr_hbox/VBoxContainer"]
-material = ExtResource( 2 )
-margin_right = 797.0
-margin_bottom = 148.0
-theme = ExtResource( 1 )
-text = "restart"
-script = SubResource( 3 )
+[node name="new_highscore" type="Control" parent="margin_container/ctnr_hbox/VBoxContainer"]
+visible = false
+margin_right = 780.0
+margin_bottom = 158.0
+size_flags_vertical = 3
+script = SubResource( 8 )
 
-[node name="btn_lvl_select" type="Button" parent="ctnr_hbox/VBoxContainer"]
-material = ExtResource( 2 )
-margin_left = 89.0
-margin_top = 348.0
-margin_right = 708.0
-margin_bottom = 496.0
+[node name="label" type="Label" parent="margin_container/ctnr_hbox/VBoxContainer/new_highscore"]
+material = ExtResource( 3 )
+margin_top = 54.0
+margin_right = 780.0
+margin_bottom = 161.0
+rect_pivot_offset = Vector2( 398, 53 )
+custom_fonts/font = SubResource( 3 )
+text = "NEW_HIGHSCORE"
+align = 1
+
+[node name="tween" type="Tween" parent="margin_container/ctnr_hbox/VBoxContainer/new_highscore"]
+
+[node name="new_gamemode" type="Control" parent="margin_container/ctnr_hbox/VBoxContainer"]
+visible = false
+margin_right = 780.0
+margin_bottom = 187.0
+size_flags_vertical = 3
+script = SubResource( 8 )
+
+[node name="tween" type="Tween" parent="margin_container/ctnr_hbox/VBoxContainer/new_gamemode"]
+
+[node name="label" type="Label" parent="margin_container/ctnr_hbox/VBoxContainer/new_gamemode"]
+material = ExtResource( 3 )
+margin_top = 48.0
+margin_right = 780.0
+margin_bottom = 155.0
+rect_pivot_offset = Vector2( 398, 53 )
+custom_fonts/font = SubResource( 3 )
+text = "NEW_GAMEMODE"
+align = 1
+
+[node name="control" type="Control" parent="margin_container/ctnr_hbox/VBoxContainer"]
+margin_right = 780.0
+margin_bottom = 230.0
+size_flags_vertical = 3
+
+[node name="btn_restart" type="Button" parent="margin_container/ctnr_hbox/VBoxContainer"]
+material = ExtResource( 3 )
+margin_top = 234.0
+margin_right = 780.0
+margin_bottom = 382.0
+theme = ExtResource( 1 )
+text = "RESTART"
+script = SubResource( 5 )
+
+[node name="control_2" type="Control" parent="margin_container/ctnr_hbox/VBoxContainer"]
+margin_top = 386.0
+margin_right = 780.0
+margin_bottom = 616.0
+size_flags_vertical = 3
+
+[node name="btn_lvl_select" type="Button" parent="margin_container/ctnr_hbox/VBoxContainer"]
+material = ExtResource( 3 )
+margin_left = 276.0
+margin_top = 620.0
+margin_right = 504.0
+margin_bottom = 768.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource( 1 )
-text = "   level select   "
-script = SubResource( 4 )
+text = "LEVEL"
+script = SubResource( 6 )
 
-[node name="hud" parent="." instance=ExtResource( 4 )]
-mouse_filter = 2
+[node name="control_3" type="Control" parent="margin_container/ctnr_hbox/VBoxContainer"]
+margin_top = 772.0
+margin_right = 780.0
+margin_bottom = 1002.0
+size_flags_vertical = 3
 
+[node name="btn_share" type="Button" parent="margin_container/ctnr_hbox/VBoxContainer"]
+material = ExtResource( 3 )
+margin_left = 264.0
+margin_top = 1006.0
+margin_right = 516.0
+margin_bottom = 1154.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource( 1 )
+text = "SHARE"
+script = SubResource( 7 )
+
+[node name="control_4" type="Control" parent="margin_container/ctnr_hbox/VBoxContainer"]
+margin_top = 1158.0
+margin_right = 780.0
+margin_bottom = 1503.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5

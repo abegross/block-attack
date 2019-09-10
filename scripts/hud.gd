@@ -10,5 +10,5 @@ func _ready():
 	update_score()
 
 func update_score():
-	score.text = "Score: " + str(score_controller.score)
+	score.text = tr("SCORE")+": " + str(score_controller.score)
 	highscore.text = str(gamemode.current_gamemode.highscore)

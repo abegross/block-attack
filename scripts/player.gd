@@ -54,5 +54,6 @@ func explode(collider, collider_pos):
 		explosion.rot = -.5*PI
 	explosion.z_index = 2
 #	explosion.emitting = true
+	yield(get_tree(), "idle_frame")
 	$'../../board'.add_child(explosion)
 	explosion.explode()

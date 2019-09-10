@@ -1,5 +1,4 @@
 extends Node
-class_name gamemode
 """
 Where all the inner workings any gamemode is.
 It's set up in a way that to add or remove or change any gamemode,
@@ -103,7 +102,7 @@ func goto_level():
 	Go to this gamemode's level.
 	"""
 	set_as_current_gamemode()
-	level_manager.load_level(level_manager.game)
+	level_manager.goto_level(level_manager.game)
 
 
 func name():

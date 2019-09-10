@@ -7,11 +7,6 @@ func _ready():
 
 #	add_scores()
 
-func _process(delta):
-#	print(panel)
-	pass
-
-
 func _score_pressed(gm):
 	panel.show()
 #	panel.margin_left = 100

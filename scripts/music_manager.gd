@@ -1,12 +1,19 @@
 extends Node
 
 var audio : AudioStreamPlayer
+#var playback
 var lpf # low pass filter
 var eq
 var started = false
 var muted = false setget toggle_mute
 
 func _ready():
+# 	var increment = (1.0 / (hz / pulse_hz))
+#	var to_fill = playback.get_frames_available()
+#	while (to_fill > 0):
+#		playback.push_frame( Vector2(1.0,1.0) * sin(phase * (PI * 2.0))
+#		phase = fmod((phase + increment), 1.0)
+#		to_fill-=1;
 	audio = $risen
 	lpf = AudioServer.get_bus_effect(AudioServer.get_bus_index('Master'), 0)
 	eq = AudioServer.get_bus_effect(AudioServer.get_bus_index('Master'), 2)

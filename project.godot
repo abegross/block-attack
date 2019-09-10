@@ -8,21 +8,22 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Node",
-"class": "gamemode",
-"language": "GDScript",
-"path": "res://scripts/gamemode_manager.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"gamemode": ""
+
 }
+
+[android]
+
+modules="org/godotengine/godot/GodotAdMob,org/godotengine/godot/GodotShare"
 
 [application]
 
-config/name="block_attack"
+config/name="block attack"
 run/main_scene="res://stages/menu_main.tscn"
+boot_splash/image="res://sprites/shpiel_logo_vertical.png"
 config/icon="res://icon.png"
+config/name_ja="ブロックアタック"
 
 [autoload]
 
@@ -61,7 +62,16 @@ press={
 
 [locale]
 
-locale_filter=[ 0, [ "en_US", "ja" ] ]
+locale_filter=[ 1, [ "en_US", "ja" ] ]
+translations=PoolStringArray( "res://translations/translations.en.translation", "res://translations/translations.ja.translation" )
+translation_remaps={
+"res://translations.csv": PoolStringArray(  )
+}
+
+[node]
+
+name_num_separator=2
+name_casing=2
 
 [rendering]
 

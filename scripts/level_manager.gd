@@ -15,11 +15,11 @@ var menu_gameover		= preload('res://stages/menu_gameover.tscn')
 var stages = [menu_main, menu_level_select, game, menu_gameover]
 
 
-func load_level(stage):
+func goto_level(stage):
 	"""
-	Load a scene/stage/level
+	changes scene to a scene/stage/level
 	args:
-		stage: a scene file to load (use one of the enum ontop of this file)
+		stage: a scene file to go to (use one of the enum ontop of this file)
 	"""
 #	for stage in scenes:
 	if stage is PackedScene:
