@@ -226,6 +226,7 @@ scale = Vector2( 0.3, 0.3 )
 shape = SubResource( 2 )
 
 [node name="piece26" type="RigidBody2D" parent="."]
+editor/display_folded = true
 position = Vector2( 38, -38 )
 z_index = 1
 collision_layer = 8
@@ -1123,4 +1124,3 @@ texture = ExtResource( 2 )
 modulate = Color( 1, 1, 1, 0.425412 )
 scale = Vector2( 0.3, 0.3 )
 shape = SubResource( 2 )
-

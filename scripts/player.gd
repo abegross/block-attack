@@ -1,5 +1,5 @@
 extends RigidBody2D
-onready var explosion = preload("res://scenes/explosion.tscn").instance()
+onready var explosion_scene = preload("res://scenes/explosion.tscn")
 var collider_pos = Vector2()
 onready var board = $'../../board'
 	# if an enemy hits me
@@ -38,6 +38,7 @@ func _on_player_body_entered(body):
 	collider_pos = body.global_position
 #	emit_signal('explode', body, collider_pos)
 func explode(collider, collider_pos):
+	var explosion = explosion_scene.instance()
 	explosion.modulate = $'../../board/player/sprite'.modulate
 	queue_free()
 	explosion.global_position = global_position
@@ -54,6 +55,6 @@ func explode(collider, collider_pos):
 		explosion.rot = -.5*PI
 	explosion.z_index = 2
 #	explosion.emitting = true
-	yield(get_tree(), "idle_frame")
+#	yield(get_tree(), "idle_frame")
 	$'../../board'.add_child(explosion)
 	explosion.explode()
